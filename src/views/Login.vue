@@ -1,8 +1,8 @@
 <template>
-  <v-container>
-    <v-layout>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
       <v-flex xs12 sm8 md6 offset-sm2 offset-md3 >
-        <v-form lazy-validation v-model='formIsValid' ref='form' @submit="validate">
+        <v-form lazy-validation v-model='formIsValid' ref='form' @submit.prevent="onSubmit">
           <v-text-field
             label='Email'
             v-model='email'
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   data () {
     return {
@@ -39,16 +40,22 @@ export default {
     }
   },
   methods: {
-    validate () {
+    async onSubmit () {
+      console.log('in onsubmit')
       if (this.$refs.form.validate()) {
-        console.log('ahora podemos crear un usuario')
+        let { email, password } = this
+        try {
+          let user = await firebase.auth().signInWithEmailAndPassword(email, password)
+          console.log(user)
+        } catch (e) {
+          console.log(e)
+          alert(e.message)
+        }
       }
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   html, body {
     height: 100%;
