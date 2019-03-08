@@ -1,22 +1,25 @@
 <template>
   <v-navigation-drawer v-model="drawer" :mobile-break-point="1024" clipped persistent app>
       <v-list dense>
-        <v-list-tile v-for="page in pages" :key="page.title" @click="$router.push(page.path)">
-          <v-list-tile-action>
-            <v-icon>{{ page.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ page.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <drawer-item v-for="page in pages" :page="page" :key="page.title" :onClick="handleItemClick" />
+        <drawer-item :page="drawerLogout" :customClick="logout" />
       </v-list>
     </v-navigation-drawer>
 </template>
 <script>
 import firebase from 'firebase'
+import DrawerItem from './DrawerItem'
 export default {
+  components: {
+    DrawerItem
+  },
   props: {
     drawer: Boolean
+  },
+  computed: {
+    drawerLogout () {
+      return { title: 'salir', icon: 'logout' }
+    }
   },
   data () {
     return {
@@ -28,6 +31,9 @@ export default {
     }
   },
   methods: {
+    handleItemClick (path) {
+      this.$router.push(path)
+    },
     async logout () {
       try {
         await firebase.auth().signOut()
