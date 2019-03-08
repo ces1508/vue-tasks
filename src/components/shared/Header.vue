@@ -1,7 +1,7 @@
 <template>
   <header>
-    <drawer :showDrawer="drawer"></drawer>
-    <v-toolbar color="indigo" dark fixed app>
+    <drawer :drawer="drawer"></drawer>
+    <v-toolbar color="indigo" dark fixed app clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Home</v-toolbar-title>
     </v-toolbar>
@@ -16,7 +16,7 @@ export default {
   },
   data () {
     return {
-      drawer: false
+      drawer: true
     }
   }
 }

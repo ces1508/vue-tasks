@@ -24,7 +24,7 @@ export default {
   },
   async created () {
     try {
-      let tasks = await this.$http.get('http://localhost:3000/tasks', { params: { state: 'pending' } })
+      let tasks = await this.$http.get('http://localhost:3000/tasks', { params: { state: 'completed' } })
       this.taskList = tasks.data
     } catch (e) {
       alert('los sentimos estamos presetnando problemas para ')
